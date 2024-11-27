@@ -9,7 +9,7 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <h1 class="mb-4">Inscription</h1>
                     <div class="my-5">
-                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
                             <div class="form-floating mb-3">
                                 {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre email'}}) }}
                                 {{ form_label(registrationForm.email) }}
@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="form-floating mb-3">
-                                {{ form_widget(registrationForm.profilePicture, {'attr': {'class': 'form-control', 'placeholder': 'Photo de profil', 'type': 'file'}}) }}
+                                {{ form_widget(registrationForm.profilePicture, {'attr': {'class': 'form-control'}}) }}
                                 {{ form_label(registrationForm.profilePicture, 'Photo de Profil (facultative)') }}
                                 {{ form_errors(registrationForm.profilePicture) }}
                                 <div class="invalid-feedback">
@@ -49,7 +49,7 @@
                             <div class="form-floating mb-3">
                                 {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
                                 {{ form_label(registrationForm.plainPassword, 'Mot de passe - 6 caractères minimum') }}
-                                {{ form_errors(registrationForm.plainPassword, {'attr' : {'class' : 'text-danger'}}) }}
+                                {{ form_errors(registrationForm.plainPassword) }}
                                 <div class="invalid-feedback">
                                     Veuillez entrer un mot de passe valide.
                                 </div>

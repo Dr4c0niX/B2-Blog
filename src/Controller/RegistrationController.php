@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -33,6 +35,31 @@ class RegistrationController extends AbstractController
             // Définir setCreatedAt et setUpdatedAt
             $user->setCreatedAt(new \DateTime());
             $user->setUpdatedAt(new \DateTime());
+
+            // Gérer le téléchargement de la photo de profil
+            $profilePictureFile = $form->get('profilePicture')->getData();
+
+            if ($profilePictureFile) {
+                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // Utiliser Slugger pour rendre le nom de fichier sûr
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$profilePictureFile->guessExtension();
+
+                // Déplacer le fichier dans le répertoire où les photos sont stockées
+                try {
+                    $profilePictureFile->move(
+                        $this->getParameter('profile_pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gérer l'exception si quelque chose se produit lors du déplacement du fichier
+                    $this->addFlash('danger', 'Erreur lors du téléchargement de la photo de profil.');
+                    return $this->redirectToRoute('app_register');
+                }
+
+                // Mettre à jour la propriété 'profilePicture' pour stocker le nom de fichier
+                $user->setProfilePicture($newFilename);
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();
