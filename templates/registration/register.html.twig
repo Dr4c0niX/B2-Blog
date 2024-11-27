@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <main class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h1 class="mb-4">Inscription</h1>
+                    <div class="my-5">
+                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                            <div class="form-floating mb-3">
+                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre email'}}) }}
+                                {{ form_label(registrationForm.email) }}
+                                {{ form_errors(registrationForm.email) }}
+                                <div class="invalid-feedback">
+                                    Veuillez entrer un email valide.
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Votre prénom'}}) }}
+                                {{ form_label(registrationForm.firstName, 'Prénom') }}
+                                {{ form_errors(registrationForm.firstName) }}
+                                <div class="invalid-feedback">
+                                    Veuillez entrer votre prénom.
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Votre nom'}}) }}
+                                {{ form_label(registrationForm.lastName, 'Nom') }}
+                                {{ form_errors(registrationForm.lastName) }}
+                                <div class="invalid-feedback">
+                                    Veuillez entrer votre nom.
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form_widget(registrationForm.profilePicture, {'attr': {'class': 'form-control', 'placeholder': 'Photo de profil', 'type': 'file'}}) }}
+                                {{ form_label(registrationForm.profilePicture, 'Photo de Profil (facultative)') }}
+                                {{ form_errors(registrationForm.profilePicture) }}
+                                <div class="invalid-feedback">
+                                    Veuillez télécharger une photo de profil.
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                                {{ form_label(registrationForm.plainPassword, 'Mot de passe - 6 caractères minimum') }}
+                                {{ form_errors(registrationForm.plainPassword, {'attr' : {'class' : 'text-danger'}}) }}
+                                <div class="invalid-feedback">
+                                    Veuillez entrer un mot de passe valide.
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                                {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                                {{ form_errors(registrationForm.agreeTerms) }}
+                                <div class="invalid-feedback">
+                                    Vous devez accepter les termes et conditions.
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript pour la validation Bootstrap -->
+    <script>
+        // Activer la validation Bootstrap personnalisée
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+{% endblock %}
