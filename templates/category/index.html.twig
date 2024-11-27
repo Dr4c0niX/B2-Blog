@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Toutes les Catégories</h1>
+        <div class="mb-4">
+            <a href="{{ path('app_category_new') }}" class="btn btn-primary">Créer une nouvelle catégorie</a>
+        </div>
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                            <p class="card-text">{{ category.description|default('Pas de description.') }}</p>
+                            <a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn btn-primary">Voir</a>
+                            <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-secondary">Modifier</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <p>Aucune catégorie trouvée.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

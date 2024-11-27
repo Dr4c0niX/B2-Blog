@@ -8,7 +8,12 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <h1 class="mb-4">Tous les Articles</h1>
-
+                    <div class="mb-4">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_post_new') }}" class="btn btn-primary">Créer un nouvel article</a>
+                        {% endif %}
+                        <hr class="my-4" />
+                    </div>
                 {% for post in posts %}
                     <div class="post-preview">
                         <a href="{{ path('app_post_show', {'id': post.id}) }}">
@@ -18,11 +23,22 @@
                         <p class="post-meta">
                             Publié par
                             <a href="#!">{{ post.user ? post.user.firstName ~ ' ' ~ post.user.lastName : 'Anonyme' }}</a>
-                            le {{ post.publishedAt|date('d/m/Y') }}
+                            le {{ post.publishedAt|date('d/m/Y') }} <br>
+                            Catégorie:
+                            <a href="#!">{{ post.category ? post.category.name : 'Non catégorisé' }}</a>
+
                         </p>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary">Voir</a>
+                                {% if is_granted('ROLE_USER') %}
+                                    <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary">Voir</a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-secondary">Modifier</a>
+                                        {{ include('post/_delete_form.html.twig') }}
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter pour voir l'article</a>
+                                {% endif %}
                             </div>
                         </div>
                         <hr class="my-4" />

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une Nouvelle Catégorie{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Créer une Nouvelle Catégorie</h1>
+        <div class="card p-4">
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                <div class="mb-3">
+                    {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+                <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+            {{ form_end(form) }}
+        </div>
+        <a href="{{ path('app_category_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+    </div>
+{% endblock %}

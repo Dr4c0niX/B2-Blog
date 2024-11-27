@@ -30,6 +30,7 @@
                 {{ form_errors(form.Category) }}
             </div>
             <button type="submit" class="btn btn-primary">Modifier</button>
+            <a href="{{ path('app_post_delete', {'id': post.id}) }}" class="btn btn-danger">Supprimer</a>
         {{ form_end(form) }}
     </div>
 {% endblock %}
