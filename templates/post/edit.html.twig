@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Article{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Modifier l'Article</h1>
+        {{ form_start(form, {'attr': {'class': 'mt-4', 'enctype': 'multipart/form-data'}}) }}
+            <div class="mb-3">
+                {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                {{ form_errors(form.content) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.picture, 'Image de l\'article', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="input-group">
+                    {{ form_widget(form.picture, {'attr': {'class': 'form-control', 'id': 'picture'}}) }}
+                    <label class="input-group-text" for="picture">Télécharger</label>
+                </div>
+                {{ form_errors(form.picture) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.Category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.Category, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.Category) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
