@@ -29,9 +29,6 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            // Définir le rôle par défaut
-            $user->setRoles(['ROLE_USER']);
-
             // Définir setCreatedAt et setUpdatedAt
             $user->setCreatedAt(new \DateTime());
             $user->setUpdatedAt(new \DateTime());
@@ -65,7 +62,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // Ajouter un message flash
-            $this->addFlash('success', 'Compte correctement créé. Veuillez vous connecter.');
+            $this->addFlash('success', 'Compte correctement créé. Attendez que votre compte soit activé pour vous connecter.');
 
             // Rediriger vers la page de connexion
             return $this->redirectToRoute('app_login');

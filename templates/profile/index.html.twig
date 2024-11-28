@@ -14,14 +14,14 @@
             <div class="card-body">
                 {% if user.profilePicture %}
                     <div class="mb-3">
-                        <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Photo de profil" class="img-fluid rounded-circle" style="max-width: 150px;">
+                        <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Photo de profil" class="img-fluid rounded-circle profile-picture">
                     </div>
                 {% endif %}
-                <p><strong>Prénom :</strong> {{ user.firstName }}</p>
-                <p><strong>Nom :</strong> {{ user.lastName }}</p>
-                <p><strong>Email :</strong> {{ user.email }}</p>
-                <p><strong>Rôles :</strong> {{ user.roles|join(', ') }}</p>
-                <p><strong>Date d'inscription :</strong> {{ user.createdAt|date('d/m/Y') }}</p>
+                <p><h5>Prénom :</h5> {{ user.firstName }}</p>
+                <p><h5>Nom :</h5> {{ user.lastName }}</p>
+                <p><h5>Email :</h5> {{ user.email }}</p>
+                <p><h5>Rôles :</h5>{% if 'ROLE_ADMIN' in user.roles %}Administrateur{% else %}Utilisateur{% endif %}</p>
+                <p><h5>Date d'inscription :</h5> {{ user.createdAt|date('d/m/Y') }}</p>
                 {# Ajoutez d'autres informations si nécessaire #}
             </div>
         </div>

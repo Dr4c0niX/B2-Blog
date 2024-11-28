@@ -1,69 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PixelPapers{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-        <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <!-- Post preview-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1 class="mb-4">Derniers Articles</h1>
+                <hr class="my-4" />
+                {% for post in posts %}
                     <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
-                            <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
-                        </a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <h3 class="post-subtitle">{{ post.content|slice(0, 100) ~ '...' }}</h3>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_login', {'id': post.id}) }}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <h3 class="post-subtitle">{{ post.content|slice(0, 100) ~ '...' }}</h3>
+                            </a>
+                        {% endif %}
                         <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on September 24, 2023
+                            Publié par
+                            <a href="#!">{{ post.user ? post.user.firstName ~ ' ' ~ post.user.lastName : 'Anonyme' }}</a>
+                            le {{ post.publishedAt|date('d/m/Y') }} <br>
+                            Catégorie : 
+                            <a href="#!">{{ post.category ? post.category.name : 'Non catégorisé' }}</a>
                         </p>
+                        <hr class="my-4" />
                     </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html"><h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.</h2></a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on September 18, 2023
-                        </p>
-                    </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">Science has not yet mastered prophecy</h2>
-                            <h3 class="post-subtitle">We predict too much for the next year and yet far too little for the next ten.</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on August 24, 2023
-                        </p>
-                    </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">Failure is not an option</h2>
-                            <h3 class="post-subtitle">Many say exploration is part of our destiny, but it’s actually our duty to future generations.</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on July 8, 2023
-                        </p>
-                    </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Pager-->
-                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                {% else %}
+                    <p>Aucun article trouvé.</p>
+                {% endfor %}
+
+                <div class="text-center my-4">
+                    <a href="{{ path('app_post_index') }}" class="btn btn-primary">Voir les autres articles</a>
                 </div>
             </div>
         </div>
-
+    </div>
 {% endblock %}
