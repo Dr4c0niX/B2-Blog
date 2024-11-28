@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Mon Profil</h1>
+        <hr class="mt-4 mb-4">
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                Informations Personnelles
+            </div>
+            <div class="card-body">
+                {% if user.profilePicture %}
+                    <div class="mb-3">
+                        <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Photo de profil" class="img-fluid rounded-circle" style="max-width: 150px;">
+                    </div>
+                {% endif %}
+                <p><strong>Prénom :</strong> {{ user.firstName }}</p>
+                <p><strong>Nom :</strong> {{ user.lastName }}</p>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>Rôles :</strong> {{ user.roles|join(', ') }}</p>
+                <p><strong>Date d'inscription :</strong> {{ user.createdAt|date('d/m/Y') }}</p>
+                {# Ajoutez d'autres informations si nécessaire #}
+            </div>
+        </div>
+    </div>
+{% endblock %}
