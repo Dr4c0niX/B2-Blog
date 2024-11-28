@@ -82,8 +82,12 @@ final class PostController extends AbstractController
     #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
     public function show(Post $post): Response
     {
+        // Récupérer les commentaires associés au post
+        $comments = $post->getComment();
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'comments' => $comments,
         ]);
     }
 

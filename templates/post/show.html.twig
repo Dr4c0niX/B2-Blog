@@ -18,5 +18,32 @@
             <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-primary">Modifier</a>
             {{ include('post/_delete_form.html.twig') }}
         {% endif %}
+        
+        <!-- Bouton pour ajouter un commentaire -->
+        <a href="{{ path('app_comment_new', {'post_id': post.id}) }}" class="btn btn-success">Ajouter un commentaire</a>
+        <hr class="my-4" />
+
+        <!-- Afficher les commentaires -->
+        <h1 class="mt-4">Commentaires</h1>
+        {% for comment in comments %}
+            <div class="comment mb-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>{{ comment.user ? comment.user.firstName ~ ' ' ~ comment.user.lastName : 'Anonyme' }}</strong>
+                        <span class="text-muted">le {{ comment.createdAt|date('d/m/Y H:i') }}</span>
+                    </div>
+                    <div>
+                        {% if comment.user == app.user or is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn btn-primary">Modifier</a>
+                            {{ include('comment/_delete_form.html.twig', { 'comment': comment }) }}
+                        {% endif %}
+                    </div>
+                </div>
+                <p>{{ comment.content }}</p>
+                <hr>
+            </div>
+        {% else %}
+            <p>Aucun commentaire pour cet article.</p>
+        {% endfor %}
     </div>
 {% endblock %}

@@ -40,7 +40,13 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('{{ asset('assets/img/home-bg.jpg') }}')">
+        {% if app.request.attributes.get('_route') in ['app_post_index', 'app_post_new', 'app_post_edit', 'app_post_show'] %}
+            <header class="masthead" style="background-image: url('{{ asset('assets/img/about-bg.jpg') }}')">
+        {% elseif app.request.attributes.get('_route') == 'app_admin'%}
+            <header class="masthead" style="background-image: url('{{ asset('assets/img/post-bg.jpg') }}')">
+        {% else %}
+            <header class="masthead" style="background-image: url('{{ asset('assets/img/home-bg.jpg') }}')">
+        {% endif %}
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
