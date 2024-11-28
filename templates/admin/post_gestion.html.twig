@@ -1,0 +1,42 @@
+{# templates/admin/post_gestion.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Articles{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Gestion des Articles</h1>
+        <div class="table-responsive mt-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Date de Publication</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td>{{ post.id }}</td>
+                            <td>{{ post.title }}</td>
+                            <td>{{ post.user ? post.user.firstName ~ ' ' ~ post.user.lastName : 'Anonyme' }}</td>
+                            <td>{{ post.publishedAt|date('d/m/Y') }}</td>
+                            <td>
+                                <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+                                <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-secondary btn-sm">Modifier</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">Aucun article trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

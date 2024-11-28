@@ -19,7 +19,7 @@
         {% for comment in comments %}
             <tr>
                 <td>{{ comment.id }}</td>
-                <td>{{ comment.content }}</td>
+                <td class="text-wrap">{{ comment.content }}</td>
                 <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ comment.status }}</td>
                 <td>

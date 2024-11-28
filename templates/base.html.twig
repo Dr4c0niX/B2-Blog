@@ -28,7 +28,7 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_post_index') }}">Articles</a></li>
                         {% if app.user %}
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_admin') }}">Administration</a></li>
+                                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_admin_dashboard') }}">Administration</a></li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_logout') }}">Déconnexion</a></li>
                         {% else %}
@@ -42,7 +42,7 @@
         <!-- Page Header-->
         {% if app.request.attributes.get('_route') in ['app_post_index', 'app_post_new', 'app_post_edit', 'app_post_show'] %}
             <header class="masthead" style="background-image: url('{{ asset('assets/img/about-bg.jpg') }}')">
-        {% elseif app.request.attributes.get('_route') == 'app_admin'%}
+        {% elseif app.request.attributes.get('_route') in ['app_admin', 'app_admin_dashboard', 'app_user_gestion', 'app_post_gestion', 'app_comment_gestion', 'app_category_index', 'app_category_new', 'app_category_edit', 'app_category_show']%}
             <header class="masthead" style="background-image: url('{{ asset('assets/img/post-bg.jpg') }}')">
         {% else %}
             <header class="masthead" style="background-image: url('{{ asset('assets/img/home-bg.jpg') }}')">

@@ -1,0 +1,48 @@
+{# templates/admin/user_gestion.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Gestion des Utilisateurs</h1>
+        <div class="table-responsive mt-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Rôles</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.firstName }} {{ user.lastName }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.roles|join(', ') }}</td>
+                            <td>
+                                <form method="post" action="{{ path('app_user_gestion') }}">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    {% if 'ROLE_USER' not in user.roles %}
+                                        <button type="submit" name="action" value="validate" class="btn btn-success btn-sm">Valider</button>
+                                    {% else %}
+                                        <button type="submit" name="action" value="deactivate" class="btn btn-danger btn-sm">Désactiver</button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">Aucun utilisateur trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

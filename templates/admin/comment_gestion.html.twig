@@ -1,0 +1,61 @@
+{# templates/admin/comment_gestion.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Commentaires{% endblock %}
+
+{% block body %}
+    <div class="container px-4 px-lg-5">
+        <h1 class="mt-4">Gestion des Commentaires</h1>
+        <div class="table-responsive mt-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Contenu</th>
+                        <th>Auteur</th>
+                        <th>Article</th>
+                        <th>Date de Création</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                        <th>Voir les détails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                            <td>{{ comment.id }}</td>
+                            <td class="text-wrap">{{ comment.content|slice(0, 50) ~ '...' }}</td>
+                            <td>{{ comment.user ? comment.user.firstName ~ ' ' ~ comment.user.lastName : 'Anonyme' }}</td>
+                            <td>{{ comment.post.title }}</td>
+                            <td>{{ comment.createdAt|date('d/m/Y') }}</td>
+                            <td>{{ comment.status }}</td>
+                            <td>
+                                <form method="post" action="{{ path('app_comment_gestion') }}">
+                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                    {% if comment.status != 'en attente' %}
+                                        {% if comment.status != 'approuvé' %}
+                                            <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approuver</button>
+                                        {% elseif comment.status != 'rejeté' %}
+                                            <button type="submit" name="action" value="disapprove" class="btn btn-danger btn-sm">Désapprouver</button>
+                                        {% endif %}
+                                    {% else %}
+                                        <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approuver</button>
+                                        <button type="submit" name="action" value="disapprove" class="btn btn-danger btn-sm">Désapprouver</button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{{ path('app_comment_show', {'id': comment.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">Aucun commentaire trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

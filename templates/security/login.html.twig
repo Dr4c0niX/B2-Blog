@@ -10,6 +10,13 @@
                     <h1 class="mb-4">Connexion</h1>
                     <div class="my-5">
                         {% if app.user %}
+                            {% if not app.user.roles == 'ROLE_USER' %}
+                                <div class="alert alert-danger">Votre compte n'est pas actif, vous pouvez vous déconnecter et attendre son activation</div>
+                                <script>
+                                    setTimeout(function() {
+                                        window.location.href = "{{ path('app_logout') }}";
+                                    }, 3000);
+                            {% endif %}
                             <script>
                                 window.location.href = "{{ path('app_main') }}";
                             </script>
