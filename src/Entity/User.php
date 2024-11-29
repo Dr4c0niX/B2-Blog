@@ -55,18 +55,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Post>
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, cascade: ['remove'], orphanRemoval: true)]
-    private Collection $Post;
+    private Collection $posts;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
-    private Collection $Comment;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, cascade: ['remove'], orphanRemoval: true)]
+    private Collection $comments;
 
     public function __construct()
     {
-        $this->Post = new ArrayCollection();
-        $this->Comment = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,15 +207,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Post>
      */
-    public function getPost(): Collection
+    public function getPosts(): Collection
     {
-        return $this->Post;
+        return $this->posts;
     }
 
     public function addPost(Post $post): static
     {
-        if (!$this->Post->contains($post)) {
-            $this->Post->add($post);
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
             $post->setUser($this);
         }
 
@@ -224,7 +224,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removePost(Post $post): static
     {
-        if ($this->Post->removeElement($post)) {
+        if ($this->posts->removeElement($post)) {
             // set the owning side to null (unless already changed)
             if ($post->getUser() === $this) {
                 $post->setUser(null);
@@ -237,15 +237,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Comment>
      */
-    public function getComment(): Collection
+    public function getComments(): Collection
     {
-        return $this->Comment;
+        return $this->comments;
     }
 
     public function addComment(Comment $comment): static
     {
-        if (!$this->Comment->contains($comment)) {
-            $this->Comment->add($comment);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
             $comment->setUser($this);
         }
 
@@ -254,7 +254,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeComment(Comment $comment): static
     {
-        if ($this->Comment->removeElement($comment)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
