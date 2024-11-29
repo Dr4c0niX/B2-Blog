@@ -25,7 +25,7 @@ class Category
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'Category')]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $posts;
 
     public function __construct()
@@ -63,24 +63,24 @@ class Category
     }
 
     /**
-     * @return Collection<int, Post>
+     * @return Collection|Post[]
      */
     public function getPosts(): Collection
     {
         return $this->posts;
     }
 
-    public function addPost(Post $post): static
+    public function addPost(Post $post): self
     {
         if (!$this->posts->contains($post)) {
-            $this->posts->add($post);
+            $this->posts[] = $post;
             $post->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removePost(Post $post): static
+    public function removePost(Post $post): self
     {
         if ($this->posts->removeElement($post)) {
             // set the owning side to null (unless already changed)
